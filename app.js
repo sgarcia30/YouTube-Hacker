@@ -20,22 +20,28 @@ function getDataFromApi(searchTerm, callback, token) {
   $.ajax(settings);
 }
 
-function renderResult(result) {
+function renderResult(result, index) {
   return `
     <div>
       <h2>
-      <a class="js-result-url" href="https://www.youtube.com/watch?v=${result.id.videoId}" target="_blank">
-      <img src="${result.snippet.thumbnails.medium.url}" name="${result.snippet.thumbnails.title}" alt="${result.snippet.thumbnails.title}"/>
+      <a class="js-result-url" href="https://www.youtube.com/watch?v=${result.id.videoId}" name="${result.snippet.title}" target="_blank">
+      <img src="${result.snippet.thumbnails.medium.url}" alt="${result.snippet.title}"/>
       <a class="js-result-channel-url" href="https://www.youtube.com/channel/${result.snippet.channelId}" target="_blank">${result.snippet.channelTitle}</a>
+      </h2>
     </div>
   `;
 }
 
 function displayYouTubeSearchData(data) {
   console.log(data);
-  const results = data.items.map((item, index) => renderResult(item));
+  const results = data.items.map((item, index) => renderResult(item, index));
   $('.js-search-results').html(results);
   nextPrevButtons(data);
+  renderNumResults(data);
+}
+
+function renderNumResults(data) {
+  $('.numResults').text(data.pageInfo.totalResults);
 }
 
 function nextPrevButtons(data) {

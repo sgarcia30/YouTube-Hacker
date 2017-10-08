@@ -6,3 +6,7 @@ body {
 	display: inline-block;
 	margin-right: 5px;
 }
+
+p {
+	display: inline;
+}
